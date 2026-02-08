@@ -214,3 +214,5 @@ python_backend_api/data/metadata/*.csv
 python_backend_api/data/metadata/*.xlsx
 .DS_Store
 ._.DS_Store
+
+*.gz
