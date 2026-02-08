@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    image: ssubuntu/escomic-backend:latest
+    container_name: escomoic-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./python_backend_api/:/api
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - escomic_network
+
+  frontend:
+    image: ssubuntu/escomic-frontend:latest
+    container_name: escomic-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react_frontend_ui/:/app
+      - "escomic_volume:/app/node_modules"
+    depends_on:
+      - backend
+    networks:
+      - escomic_network
+
+volumes:
+  escomic_volume:
+
+networks:
+  escomic_network:
+    driver: bridge
