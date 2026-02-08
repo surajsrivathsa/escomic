@@ -25,7 +25,7 @@ This is research-backed comic book search system that:
 | Feature | Details |
 |---------|---------|
 | 🔍 **Content Search** | Search by text, visual features, color, texture, artistic style |
-| 💡 **Explainability** | LIME-based local explanations, feature importance analysis |
+| 💡 **Explainability** | Weights-based local explanations, feature importance analysis |
 | 👤 **Personalization** | Learns from hover patterns, adapts results per user |
 | 🎚️ **Rich Faceting** | Filter by genre, character, year, color palette, topics |
 | 📊 **Comparison** | Compare books side-by-side with explanations |
@@ -40,7 +40,7 @@ This is research-backed comic book search system that:
 </tr>
 <tr>
 <td><strong>Backend</strong></td>
-<td>FastAPI • Python 3.8+ • scikit-learn • Transformers • PyTorch • LIME</td>
+<td>FastAPI • Python 3.8+ • scikit-learn • Transformers • PyTorch </td>
 </tr>
 <tr>
 <td><strong>Frontend</strong></td>
@@ -52,11 +52,11 @@ This is research-backed comic book search system that:
 </tr>
 <tr>
 <td><strong>ML/AI</strong></td>
-<td>Sentence-Transformers • PyTorch • scikit-learn • LIME</td>
+<td>Sentence-Transformers • PyTorch • scikit-learn </td>
 </tr>
 <tr>
 <td><strong>Data</strong></td>
-<td>Pandas • NumPy • 7000+ Comic Books • 5000+ Cover Images</td>
+<td>Pandas • NumPy • 1700+ Comic Books • 1700+ Cover Images</td>
 </tr>
 </table>
 
@@ -179,11 +179,11 @@ Key endpoints:
 
 Due to size (~1.5GB), these are NOT in the repository:
 
-❌ **Comic Book Covers** (~5000 JPEGs, 1GB)
+❌ **Comic Book Covers** (~1700+ JPEGs, 1GB)
 → Download from: `[Link provided separately]`
 → Extract to: `react_frontend_ui/public/comic_book_covers_ui/`
 
-❌ **Metadata Files** (CSV/XLSX, 500MB)
+❌ **Metadata Files** (CSV/XLSX, 300MB)
 → Download from: `[Link provided separately]`
 → Extract to: `python_backend_api/data/metadata/`
 
@@ -232,7 +232,7 @@ docker-compose ps
 
 This implements research on:
 - **Feature Extraction**: Domain-specific facets for comics
-- **Explainable AI**: LIME-based explanations
+- **Explainable AI**: Weights-based explanations
 - **Online Learning**: Adaptive personalization
 - **User Studies**: Evaluation vs. baselines
 
