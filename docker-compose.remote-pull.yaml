@@ -14,7 +14,7 @@ services:
       - escomic_network
 
   frontend:
-    image: ssubuntu/escomic-frontend:latest
+    image: ssubuntu/escomic-frontrunning from local does not contain  cend:latest
     container_name: escomic-frontend
     ports:
       - "3000:3000"

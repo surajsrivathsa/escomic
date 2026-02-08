@@ -7,7 +7,7 @@ Here you go — I’ve converted your RTF into clean, readable **Markdown** and 
 ## Step 1: Create Image for Backend
 
 ```bash
-cd git/thesis_deployment/python_backend_api
+cd ./escomic/python_backend_api
 ```
 
 **Python:**
@@ -21,7 +21,7 @@ docker build . -t backend
 ## Step 2: Create Image for Frontend
 
 ```bash
-cd git/thesis_deployment/react_frontend_ui
+cd ./escomic/react_frontend_ui
 ```
 
 **UI:**
@@ -46,7 +46,7 @@ docker network create frontend_backend_connection
 ### Backend (Python)
 
 ```bash
-cd git/thesis_deployment/python_backend_api
+cd ./escomic/python_backend_api
 docker run --rm --name backend \
   --network frontend_backend_connection \
   -p 8000:8000 backend
@@ -55,7 +55,7 @@ docker run --rm --name backend \
 ### Frontend (UI)
 
 ```bash
-cd git/thesis_deployment/react_frontend_ui
+cd ./escomic/react_frontend_ui
 docker run --rm --name frontend \
   --network frontend_backend_connection \
   -p 3000:3000 frontend
@@ -63,21 +63,5 @@ docker run --rm --name frontend \
 
 ---
 
-## Step 5: Forward Ports of Remote to Local
 
-*(Not useful for running on local)*
-
-### SSH Login
-
-```bash
-ssh shashidh@dke110.cs.uni-magdeburg.de
-```
-
-### Connect App to Localhost
-
-```bash
-ssh -L 3000:localhost:3000 shashidh@dke110.cs.uni-magdeburg.de
-```
-
----
 

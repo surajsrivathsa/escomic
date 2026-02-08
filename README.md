@@ -1,249 +1,155 @@
-<<<<<<< HEAD
-# Adaptive and Explainable Search for Comics 📚
+# ESCOMIC 📚
 
-An intelligent comic book search system that leverages domain-specific visual and textual facets to provide personalized, explainable search results enhanced with online adaptive relevance feedback.
+**Adaptive and Explainable Search for Comics** — An intelligent comic book search system with personalization, explainable AI, and interactive relevance feedback.
 
 ## Overview
 
-Comics are a versatile art form combining sequences of graphics and dialogue to tell compelling stories. Beyond entertainment, they're used in education, operation manuals, and diverse storytelling mediums. While they've profoundly influenced the movie industry, current comic book search engines focus primarily on metadata and popularity, neglecting content-based and context-aware retrieval.
+This is research-backed comic book search system that:
 
-This project addresses this gap by:
+✨ **Searches Beyond Metadata** — Use visual & textual content, not just titles/genres
 
-- **Extracting domain-specific facets**: 
-  - Textual: genre, gender, topics, character names
-  - Visual: book covers, color palettes, textures, artistic styles
-  - Lower-level features: edge detection, shape analysis
+✨ **Explains Results** — Understand *why* results were returned with interactive explanations
 
-- **Providing explainable search**: Users can understand *why* results were returned through:
-  - Global explanations of the search system's logic
-  - Local explanations comparing similar/dissimilar books
-  - Visual and textual justifications
+✨ **Learns From You** — Personalization via implicit user feedback (mouse hover tracking)
 
-- **Adaptive online learning**: 
-  - Real-time relevance feedback via mouse hover tracking
-  - Non-obtrusive user interaction analysis
-  - Personalization that learns user preferences
+✨ **5 Research Systems** — Compare different approaches: Wayne, Stark, Croft, Butcher, Gray
 
-- **Addressing key user questions**:
-  - "Why did we get these search results?"
-  - "How are two books from the same results similar or dissimilar?"
-  - "What does the search engine believe my likings are?"
-  - "How did my previous activity impact current results?"
+✨ **Production Ready** — Optimized Docker images, API documentation, full stack setup
+
+**For setup instructions, see:**
+- **Easiest:** [INSTALLATION_DOCKER_HUB.md](docs/INSTALLATION_DOCKER_HUB.md) — 5 minutes with pre-built images
+- **Local Build:** [INSTALLATION_LOCAL.md](docs/INSTALLATION_LOCAL.md) — Build from source
 
 ## Key Features
 
-✨ **Content-Based Search**: Search beyond metadata using visual and textual analysis  
-✨ **Explainable AI**: Understand why results are returned with local and global explanations  
-✨ **Adaptive Personalization**: System learns from user interactions (hover tracking)  
-✨ **Rich Faceting**: Filter by genre, color, texture, topics, character names, etc.  
-✨ **Relevance Feedback**: Interactive feedback mechanism to refine results  
-✨ **Visual Explanations**: See what contributes to each recommendation  
+| Feature | Details |
+|---------|---------|
+| 🔍 **Content Search** | Search by text, visual features, color, texture, artistic style |
+| 💡 **Explainability** | LIME-based local explanations, feature importance analysis |
+| 👤 **Personalization** | Learns from hover patterns, adapts results per user |
+| 🎚️ **Rich Faceting** | Filter by genre, character, year, color palette, topics |
+| 📊 **Comparison** | Compare books side-by-side with explanations |
+| 🗣️ **Feedback** | Non-obtrusive relevance feedback via UI interactions |
 
 ## Technology Stack
 
-### Backend
-- **Framework**: FastAPI (Python 3.8+)
-- **ML/AI**: 
-  - scikit-learn (machine learning)
-  - Transformers & Hugging Face Hub (embeddings)
-  - Sentence-Transformers (semantic search)
-  - PyTorch (deep learning inference)
-  - LIME (local explanations)
-  - Plotly (interactive visualizations)
-- **Image Processing**: Pillow, PyTesseract
-- **Data**: Pandas, NumPy
-- **OCR**: Tesseract, PDFPlumber
-- **Cache**: Redis (optional)
-
-### Frontend
-- **Framework**: React 18
-- **UI Components**: Material-UI (MUI), React Widgets
-- **Data Grid**: MUI Data Grid
-- **Visualization**: Chart.js, Plotly
-- **HTTP Client**: Axios
-- **Routing**: React Router v6
-- **Styling**: Styled Components, Material-UI Theming
-
-### Deployment
-- **Containerization**: Docker & Docker Compose
-- **Web Server**: Nginx (production)
-- **Node Server**: React Scripts (development)
+<table>
+<tr>
+<th>Layer</th>
+<th>Technologies</th>
+</tr>
+<tr>
+<td><strong>Backend</strong></td>
+<td>FastAPI • Python 3.8+ • scikit-learn • Transformers • PyTorch • LIME</td>
+</tr>
+<tr>
+<td><strong>Frontend</strong></td>
+<td>React 18 • Material-UI • Axios • React Router</td>
+</tr>
+<tr>
+<td><strong>Deployment</strong></td>
+<td>Docker • Docker Compose • Nginx • Ubuntu/Linux</td>
+</tr>
+<tr>
+<td><strong>ML/AI</strong></td>
+<td>Sentence-Transformers • PyTorch • scikit-learn • LIME</td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td>Pandas • NumPy • 7000+ Comic Books • 5000+ Cover Images</td>
+</tr>
+</table>
 
 ## Project Structure
 
 ```
-thesis_deployment/
-├── python_backend_api/              # FastAPI Backend
-│   ├── fastapi_webserver/           # Main application
-│   ├── search/                      # Search algorithms
-│   │   ├── coarse/                  # TF-IDF, CNN features
-│   │   └── interpretable/           # Explainability & personalization
-│   ├── common_functions/            # Utilities
-│   ├── common_constants/            # Constants & configs
-│   ├── features/                    # Pre-computed features
-│   ├── data/                        # Datasets and metadata
-│   │   ├── metadata/                # CSV files with book info
-│   │   ├── session_data/            # User session histories
-│   │   └── comics_data/             # Comic book PDFs/images
-│   ├── requirements.txt             # Python dependencies
-│   ├── Dockerfile                   # Development image
-│   └── Dockerfile.optimized         # Production image (76% smaller)
+escomic/
+├── README.md                 ← Start here
+├── docs/                     ← All documentation
+│   ├── INSTALLATION_DOCKER_HUB.md      (recommended setup)
+│   ├── INSTALLATION_LOCAL.md           (local build setup)
+│   ├── SYSTEMS.md                      (Wayne/Stark/Croft/etc)
+│   ├── TROUBLESHOOTING.md              (known issues)
+│   ├── DOCKER_COMMANDS.md              (Docker reference)
+│   └── FILE_STRUCTURE.md               (detailed directory guide)
 │
-├── react_frontend_ui/               # React Frontend
-│   ├── src/
-│   │   ├── components/              # React components
-│   │   ├── pages/                   # Page components
-│   │   ├── backend_api_calls/       # API integration
-│   │   ├── routes/                  # Route definitions
-│   │   ├── App.js                   # Main app component
-│   │   └── index.js                 # Entry point
-│   ├── public/
-│   │   ├── index.html               # HTML template
-│   │   └── comic_book_covers_ui/    # Cover images (1500+)
-│   ├── package.json                 # Node dependencies
-│   ├── Dockerfile                   # Development image
-│   └── Dockerfile.optimized         # Production image (87% smaller)
-│
-├── docker-compose.yml               # Development compose
-├── docker-compose.optimized.yml     # Production compose (recommended)
-├── build_optimized.sh               # Build script for optimized images
-├── DOCKER_OPTIMIZATION_GUIDE.md     # Docker optimization details
-├── DOCKER_QUICK_REFERENCE.md        # Quick docker commands
-└── README.md                        # This file
+├── python_backend_api/       ← FastAPI Backend
+├── react_frontend_ui/        ← React Frontend
+└── docker-compose*.yml       ← Docker configs
 ```
 
-## Getting Started
+👉 **[Full Directory Guide →](docs/FILE_STRUCTURE.md)**
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Python 3.8+ (or 3.11+ for optimized builds)
-- Node.js 18+
-- Docker & Docker Compose (recommended)
-- 8GB+ RAM (for ML models)
-- Tesseract OCR (for backend)
+- **Docker & Docker Compose** (easiest option) OR
+- **Python 3.8+** + **Node.js 18+** (local development)
+- **4GB+ RAM** (8GB+ recommended)
+- **2-3GB disk space** (more with data files)
 
-### Installation & Running
+### Quick Start
 
-#### Option 1: Docker (Recommended - Optimized) 🐳
+Choose your setup method:
 
-**Fastest way to get started:**
-
+**Option 1: Docker Hub Images (5 minutes - Easiest)**
 ```bash
-# Navigate to project directory
-cd thesis_deployment
+docker-compose -f docker-compose.remote-pull.yaml up -d
+# Then open http://localhost:3000
+```
+👉 **[Full guide →](docs/INSTALLATION_DOCKER_HUB.md)**
 
-# Make build script executable
-chmod +x build_optimized.sh
-
-# Build optimized images (76% smaller!)
-./build_optimized.sh --both
-
-# Start services with docker-compose
+**Option 2: Build Locally (20 minutes)**
+```bash
 docker-compose -f docker-compose.optimized.yml up -d
-
-# Check services are running
-docker-compose -f docker-compose.optimized.yml ps
-
-# View logs
-docker-compose -f docker-compose.optimized.yml logs -f
+# Then open http://localhost:3000
 ```
+👉 **[Full guide →](docs/INSTALLATION_LOCAL.md)**
 
-**Access the application:**
-- 🎨 Frontend: http://localhost:3000 or http://localhost:80
-- 🔧 Backend API: http://localhost:8000
-- 📚 API Docs: http://localhost:8000/docs
+**Option 3: Manual Development (Advanced)**
+- Backend: `cd python_backend_api && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt`
+- Frontend: `cd react_frontend_ui && npm install && npm start`
 
-#### Option 2: Docker (Standard Development)
+👉 **[Full guide →](docs/INSTALLATION_LOCAL.md)**
 
-```bash
-# Build standard images
-docker-compose build
+### After Starting
 
-# Start services
-docker-compose up -d
+- **Frontend**: http://localhost:3000
+- **API Docs**: http://localhost:8000/docs
+- **Check status**: `docker-compose ps`
 
-# Access same ports as above
-```
+## 🎮 Using ESCOMIC
 
-#### Option 3: Local Development (Without Docker)
+### Basic Workflow
 
-**Backend:**
-```bash
-cd python_backend_api
+1. **Search**: Enter book (e.g., "book name")
+2. **Browse**: See results with explanations
+3. **Filter**: Apply facet filters (genre, color, etc.)
+4. **Interact**: Hover over results to provide feedback
+5. **Explore**: Click for detailed explanations
 
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+### Features
 
-# Install dependencies
-pip install -r requirements.txt
+- **Content-Based**: Search visual & textual features
+- **Explainable**: Understand why results appear
+- **Personalized**: System learns from your interactions
+- **Comparable**: Side-by-side book comparisons
+- **Faceted**: Rich filtering options
 
-# Start server
-cd fastapi_webserver
-uvicorn search_main:app --host 0.0.0.0 --port 8000 --reload
-```
+⚠️ **Note**: The facet control filter switch is finicky and needs 2-3 clicks to toggle properly. This is a known quirk of the research implementation.
 
-**Frontend (new terminal):**
-```bash
-cd react_frontend_ui
+### Systems to Choose From
 
-# Install dependencies
-npm install --legacy-peer-deps
+Select from Wayne, Stark, Croft, Butcher, or Gray:
 
-# Start development server
-npm start
+- **Wayne** ⭐ (Recommended) - Full features
+- **Stark** - Test comparison quality
+- **Croft** - Test explanation quality
+- **Butcher** - Baseline (no personalization)
+- **Gray** - Random personalization control
 
-# Opens http://localhost:3000 automatically
-```
-
-### Quick Docker Commands
-
-```bash
-# View image sizes (check optimization)
-docker images | grep -E "(frontend|backend)"
-
-# Check running containers
-docker ps
-
-# View logs
-docker logs -f <container_name>
-
-# Stop all services
-docker-compose -f docker-compose.optimized.yml down
-
-# Rebuild and restart
-docker-compose -f docker-compose.optimized.yml build --no-cache
-docker-compose -f docker-compose.optimized.yml up -d
-```
-
-## Usage
-
-### Search Interface
-
-1. **Enter Query**: Type your search query (e.g., "superhero adventure")
-2. **Browse Results**: View comic books ranked by relevance
-3. **Apply Filters**: Filter by genre, color, topics, etc.
-4. **Hover for Feedback**: Hover over results to indicate interest
-5. **View Explanations**: 
-   - Click on results to see local explanations
-   - Understand why books are similar/dissimilar
-   - Check predicted user preferences
-
-### Features Walkthrough
-
-**Content-Based Search**
-- Search combines textual (OCR, NLP) and visual (CNN) features
-- Results ranked by combined relevance
-
-**Explainability**
-- **Local Explanations**: Compare two books side-by-side
-- **Global Explanations**: See what the system learned about you
-- **Visual Justifications**: Heatmaps showing important features
-
-**Personalization**
-- System learns from mouse hover activity
-- Adapts results based on your patterns
-- Non-intrusive - no explicit feedback needed
+👉 **[System Details →](docs/SYSTEMS.md)**
 
 ## API Documentation
 
@@ -261,179 +167,103 @@ POST   /feedback/hover           - Log user hover interaction
 POST   /session/create           - Create new user session
 GET    /session/{session_id}     - Get session preferences
 GET    /books/{book_id}          - Get detailed book information
-```
+## 🔧 API
 
-## Configuration
+Interactive docs: `http://localhost:8000/docs` (after starting)
 
-### Environment Variables
+Key endpoints:
+- `POST /book_search_with_searchbar_inputs` - Search
+- `POST /local_explanation` - Explain books
+- `POST /compare_books` - Compare two books
+- `POST /view_comic_book` - View details
 
-Create `.env` file in project root (optional):
+## ⚠️ Important: Large Files
 
-```env
-# Backend
-BACKEND_HOST=0.0.0.0
-BACKEND_PORT=8000
-PYTHONUNBUFFERED=1
-PYTHONDONTWRITEBYTECODE=1
+Due to size (~1.5GB), these are NOT in the repository:
 
-# Frontend (set in docker-compose)
-REACT_APP_API_URL=http://localhost:8000
+❌ **Comic Book Covers** (~5000 JPEGs, 1GB)
+→ Download from: `[Link provided separately]`
+→ Extract to: `react_frontend_ui/public/comic_book_covers_ui/`
 
-# Cache (if using Redis)
-REDIS_URL=redis://localhost:6379
-```
+❌ **Metadata Files** (CSV/XLSX, 500MB)
+→ Download from: `[Link provided separately]`
+→ Extract to: `python_backend_api/data/metadata/`
 
-### Data Configuration
-
-Data files are mounted as volumes:
-- Backend data: `/api/data` (mounted from `./python_backend_api/data`)
-- Frontend images: `/mnt/comic_covers` (mounted from comic book covers directory)
-
-See `docker-compose.optimized.yml` for volume configuration.
+👉 **[Setup instructions →](docs/INSTALLATION_LOCAL.md#data-requirements)**
 
 
 See [DOCKER_OPTIMIZATION_GUIDE.md](./DOCKER_OPTIMIZATION_GUIDE.md) for details.
 
-## Research Contributions
+## 📚 Documentation
 
-This project implements findings from research on:
+All documentation is in the `docs/` folder:
 
+| Document | Purpose |
+|----------|----------|
+| [INSTALLATION_DOCKER_HUB.md](docs/INSTALLATION_DOCKER_HUB.md) | Quick setup with pre-built images |
+| [INSTALLATION_LOCAL.md](docs/INSTALLATION_LOCAL.md) | Local build & development setup |
+| [SYSTEMS.md](docs/SYSTEMS.md) | Wayne, Stark, Croft, Butcher, Gray explained |
+| [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Known issues & solutions |
+| [DOCKER_COMMANDS.md](docs/DOCKER_COMMANDS.md) | Docker command reference |
+| [FILE_STRUCTURE.md](docs/FILE_STRUCTURE.md) | Detailed directory guide |
+
+## 🆘 Need Help?
+
+- **Setup issues?** → [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+- **Docker commands?** → [DOCKER_COMMANDS.md](docs/DOCKER_COMMANDS.md)
+- **System selection?** → [SYSTEMS.md](docs/SYSTEMS.md)
+- **File structure?** → [FILE_STRUCTURE.md](docs/FILE_STRUCTURE.md)
+
+## ⚡ Quick Commands
+
+```bash
+# Start (Docker Hub images)
+docker-compose -f docker-compose.remote-pull.yaml up -d
+
+# Start (local build)
+docker-compose -f docker-compose.optimized.yml up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop
+docker-compose down
+
+# Status
+docker-compose ps
+```
+
+## 🎓 Research
+
+This implements research on:
 - **Feature Extraction**: Domain-specific facets for comics
-- **Explainable AI**: LIME-based local explanations, feature importance
-- **Online Learning**: Adaptive personalization via implicit feedback
-- **User Studies**: Evaluation against baseline search methods
+- **Explainable AI**: LIME-based explanations
+- **Online Learning**: Adaptive personalization
+- **User Studies**: Evaluation vs. baselines
 
-### Key Findings
-
-✓ Domain-based facets retrieved more relevant results  
-✓ Local explanations effective for comparing books  
-✓ User feedback significantly improved subsequent results  
-✓ Explaining personalization had limited effectiveness  
-
-## Citation
+## 📄 Citation
 
 ```bibtex
-@article{comics_search_2024,
-  title={Adaptive and Explainable Search for Comics},
+@article{escomic_2024,
+  title={ESCOMIC: Adaptive and Explainable Search for Comics},
   author={Your Name},
-  journal={Your Journal/Conference},
-  year={2024},
-  url={https://www.researchgate.net/publication/396999207_Adaptive_and_Explainable_Search_for_Comics}
+  journal={Your Journal},
+  year={2024}
 }
 ```
 
-## Project Files Reference
+## 📞 Support
 
-- 📄 [DOCKER_QUICK_REFERENCE.md](./DOCKER_QUICK_REFERENCE.md) - Quick Docker commands
-- 📚 [DOCKER_OPTIMIZATION_GUIDE.md](./DOCKER_OPTIMIZATION_GUIDE.md) - Detailed optimization guide
-- 🔨 [build_optimized.sh](./build_optimized.sh) - Build script
-- 🐳 [docker-compose.optimized.yml](./docker-compose.optimized.yml) - Production compose
-- 🐳 [docker-compose.yml](./docker-compose.yml) - Development compose
-
-## Troubleshooting
-
-### Frontend images not loading
-```bash
-# Check volume mount
-docker inspect frontend_optimized | grep -i mounts
-
-# Check nginx logs
-docker logs frontend_optimized
-```
-
-### Backend API connection errors
-```bash
-# Check backend is running
-docker ps | grep backend
-
-# Check API health
-curl http://localhost:8000/docs
-
-# View backend logs
-docker logs -f backend_optimized
-```
-
-### Port already in use
-```bash
-# Find and kill process
-lsof -i :3000  # Frontend
-lsof -i :8000  # Backend
-
-# Or change ports in docker-compose.optimized.yml
-```
-
-### Out of memory
-Ensure 8GB+ available RAM. Close other applications or increase Docker's memory allocation in Docker Desktop settings.
-
-## Development
-
-### Adding Dependencies
-
-**Backend:**
-```bash
-# Add to requirements.txt, then rebuild
-pip install -r python_backend_api/requirements.txt
-```
-
-**Frontend:**
-```bash
-# Add with npm, then rebuild
-npm install --save <package-name> --legacy-peer-deps
-```
-
-### Running Tests
-
-See individual `README.md` files in `python_backend_api/` and `react_frontend_ui/` directories.
-
-## Performance Tips
-
-- Use optimized Docker images for production
-- Pre-compute features for large datasets
-- Enable Redis caching for frequently accessed books
-- Use Nginx gzip compression (enabled by default)
-- Batch similarity computations
-
-## Future Enhancements
-
-- [ ] Mobile responsive design
-- [ ] Advanced filtering with more facets
-- [ ] Collaborative filtering
-- [ ] Real-time collaborative search sessions
-- [ ] Model retraining pipeline
-- [ ] A/B testing framework
-- [ ] Analytics dashboard
-
-## License
-
-[Add your license here]
-
-## Authors
-
-- **Lead Developer**: [Your Name]
-- **Research Advisor**: [Advisor Name]
-- **Institution**: [Your University/Organization]
-
-## Acknowledgments
-
-- Comic book dataset contributors
-- ResearchGate community for feedback
-- User study participants
-- Open-source community (FastAPI, React, scikit-learn, etc.)
-
-## Support & Contact
-
-- 📧 Email: [your.email@example.com]
-- 🐛 Issues: [GitHub Issues Link]
-- 💬 Discussions: [GitHub Discussions Link]
+- 📚 [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+- 🐛 Create an issue on GitHub
+- 📧 Contact maintainers
 
 ---
 
-**Last Updated**: February 2026  
-**Status**: Active Development  
-**Python Version**: 3.8+  
-**Node Version**: 18+  
-**Docker**: Recommended for deployment
-=======
-# escomic
-ESCOMIC is an adaptive, explainable comic search system that blends visual, textual, and high-level comic facets. It uses implicit feedback to refine results and offers clear global and local explanations, improving effectiveness, trust, and user satisfaction.
->>>>>>> origin/main
+<div align="center">
+
+**🚀 [Get Started →](docs/INSTALLATION_DOCKER_HUB.md)**
+
+Quick setup with docker-compose in 5 minutes
+
+</div>
