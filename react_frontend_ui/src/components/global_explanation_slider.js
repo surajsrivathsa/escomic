@@ -80,32 +80,37 @@ const GlobalExplanationSliderGrid = ({ inputData, onSubmit }) => {
 
   // update editable switch and color of sliders
   const handleSwitchChange = (event) => {
-    console.log(event);
-    setIsEditable((checked) => event.target.checked);
-    if (event.target.checked) {
-      setSliderSX({
-        width: "80%",
-        "& .MuiSlider-thumb": { color: "#42a5f5" },
-        "& .MuiSlider-track": { color: "#42a5f5" },
-        "& .MuiSlider-rail": { color: "#acc4e4" },
-        "& .MuiSlider-active": { color: "green" },
-      });
+    const newIsEditable = event.target.checked;
+    setIsEditable(newIsEditable);
+    
+    // Update slider styling immediately (no state dependency)
+    const newSliderSX = newIsEditable
+      ? {
+          width: "80%",
+          "& .MuiSlider-thumb": { color: "#42a5f5" },
+          "& .MuiSlider-track": { color: "#42a5f5" },
+          "& .MuiSlider-rail": { color: "#acc4e4" },
+          "& .MuiSlider-active": { color: "green" },
+        }
+      : {
+          width: "80%",
+          "& .MuiSlider-thumb": { color: "gray" },
+          "& .MuiSlider-track": { color: "gray" },
+          "& .MuiSlider-rail": { color: "#acc4e4" },
+          "& .MuiSlider-active": { color: "green" },
+        };
+    
+    setSliderSX(newSliderSX);
 
+    // Single submit call with correct state
+    if (newIsEditable) {
       onSubmit({
-        isEditable: event.target.checked,
+        isEditable: newIsEditable,
         userChosenFacetWeights: data,
       });
     } else {
-      setSliderSX({
-        width: "80%",
-        "& .MuiSlider-thumb": { color: "gray" },
-        "& .MuiSlider-track": { color: "gray" },
-        "& .MuiSlider-rail": { color: "#acc4e4" },
-        "& .MuiSlider-active": { color: "green" },
-      });
-      console.log("submitted default data from global slider: ", data);
       onSubmit({
-        isEditable: event.target.checked,
+        isEditable: newIsEditable,
         userChosenFacetWeights: {
           genre_comb: 1.0,
           gender: 1.0,
@@ -119,10 +124,18 @@ const GlobalExplanationSliderGrid = ({ inputData, onSubmit }) => {
   };
 
   const conditionalGlobalExplanationUpdateFromBackend = () => {
+    // Sync data when facets change from backend
     if (isEditable === false) {
       setData(inputData);
     }
   };
+
+  // Update data when inputData prop changes (from backend)
+  useEffect(() => {
+    if (!isEditable) {
+      setData(inputData);
+    }
+  }, [inputData, isEditable]);
 
   const sendUsersFacetWeightsToMain = () => {
     if (isEditable === true) {
@@ -214,8 +227,7 @@ const GlobalExplanationSliderGrid = ({ inputData, onSubmit }) => {
         columns={columns}
         autoHeight={true}
         disableColumnMenu={true}
-        onStateChange={conditionalGlobalExplanationUpdateFromBackend}
-        sx={{ color: "whitesmoke"}}
+        sx={{ color: "whitesmoke" }}
       />
     </div>
   );

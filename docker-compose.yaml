@@ -5,7 +5,7 @@ services:
     build:
       context: ./python_backend_api
       dockerfile: Dockerfile
-    container_name: escomoic-backend
+    container_name: escomic-backend
     ports:
       - "8000:8000"
     volumes:
