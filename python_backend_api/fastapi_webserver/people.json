@@ -1,0 +1,13 @@
+{
+    "people": [
+        {"id": 1, "name": "Mike", "age": 25, "gender": "M"},
+        {"id": 2, "name": "Bob", "age": 55, "gender": "M"},
+        {"id": 3, "name": "Alice", "age": 22, "gender": "F"},
+        {"id": 4, "name": "Rob", "age": 27, "gender": "M"},
+        {"id": 5, "name": "Pete", "age": 45, "gender": "M"},
+        {"id": 6, "name": "Paul", "age": 29, "gender": "M"},
+        {"id": 7, "name": "Linda", "age": 34, "gender": "F"},
+        {"id": 8, "name": "Liza", "age": 21, "gender": "F"},
+        {"id": 9, "name": "Dan", "age": 22, "gender": "M"}
+    ]
+}

@@ -205,3 +205,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+node_modules/
+react_frontend_ui/public/comic_book_covers_ui/*
+python_backend_api/data/comics_data
+python_backend_api/data/session_data
+python_backend_api/data/metadata/*.csv
+python_backend_api/data/metadata/*.xlsx
+.DS_Store
+._.DS_Store
