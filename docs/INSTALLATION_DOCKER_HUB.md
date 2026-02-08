@@ -23,7 +23,7 @@ docker pull ssubuntu/escomic-frontend:latest
 
 ### 2. Create Compose File
 
-Create a `docker-compose.remote-pull.yaml` file in your project root:
+Use the `docker-compose.remote-pull.yaml` file in your project root:
 
 ```yaml
 version: '3.8'
@@ -89,7 +89,7 @@ The pre-built images do **NOT** include comic book cover images (~1GB).
 
 **Steps:**
 
-1. Download covers from: `[Link to be provided]`
+1. Download covers from: `https://1drv.ms/u/c/ca9d6b4b08cafad5/IQAOXakqjpCoT6uoGtMJDYJ7AZ49rat6QJoCWk2XH8jpakI?e=hYwPQE`
 2. Unzip the archive
 3. Copy JPEG files to: `./react_frontend_ui/public/comic_book_covers_ui/`
 
@@ -102,7 +102,7 @@ cp -r comic_covers_ui/*.jpeg react_frontend_ui/public/comic_book_covers_ui/
 
 For full functionality including OCR'ed texts and metadata:
 
-1. Download metadata from: `[Link to be provided]`
+1. Download metadata from: `https://1drv.ms/u/c/ca9d6b4b08cafad5/IQB5sn0zhH3PR4AxnKQsWkfbASejNBIrv0a4Ra-2lRGH8pk?e=3nR3pi`
 2. Unzip the archive
 3. Copy CSV/XLSX files to: `./python_backend_api/data/metadata/`
 

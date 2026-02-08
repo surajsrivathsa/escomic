@@ -95,7 +95,7 @@ Choose your setup method:
 
 **Option 1: Docker Hub Images (5 minutes - Easiest)**
 ```bash
-docker-compose up -d
+docker-compose up -f ./docker-compose.remote-pull.yaml -d
 ```
 👉 **[Full guide →](docs/INSTALLATION_DOCKER_HUB.md)**
 
