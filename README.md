@@ -95,15 +95,13 @@ Choose your setup method:
 
 **Option 1: Docker Hub Images (5 minutes - Easiest)**
 ```bash
-docker-compose -f docker-compose.remote-pull.yaml up -d
-# Then open http://localhost:3000
+docker-compose up -d
 ```
 👉 **[Full guide →](docs/INSTALLATION_DOCKER_HUB.md)**
 
 **Option 2: Build Locally (20 minutes)**
 ```bash
-docker-compose -f docker-compose.optimized.yml up -d
-# Then open http://localhost:3000
+docker-compose up -d
 ```
 👉 **[Full guide →](docs/INSTALLATION_LOCAL.md)**
 
@@ -217,19 +215,16 @@ All documentation is in the `docs/` folder:
 ## ⚡ Quick Commands
 
 ```bash
-# Start (Docker Hub images)
-docker-compose -f docker-compose.remote-pull.yaml up -d
-
-# Start (local build)
-docker-compose -f docker-compose.optimized.yml up -d
+# Start services
+docker-compose up -d
 
 # View logs
 docker-compose logs -f
 
-# Stop
+# Stop services
 docker-compose down
 
-# Status
+# Check status
 docker-compose ps
 ```
 

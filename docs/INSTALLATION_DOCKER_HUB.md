@@ -66,21 +66,20 @@ networks:
 ### 3. Start Services
 
 ```bash
-# Start all services in background
-docker-compose -f docker-compose.remote-pull.yaml up -d
+# Start services
+docker-compose up -d
 
-# Check if services are running
-docker-compose -f docker-compose.remote-pull.yaml ps
+# Check if running
+docker-compose ps
 
 # View logs
-docker-compose -f docker-compose.remote-pull.yaml logs -f
+docker-compose logs -f
 ```
 
-### 4. Access the Application
+### 4. Access Application
 
-- **Frontend**: http://localhost:3000 or http://localhost:80
-- **Backend API**: http://localhost:8000
-- **API Documentation**: http://localhost:8000/docs
+- **Frontend**: http://localhost:3000
+- **APIs**: http://localhost:8000/docs
 
 ## Data Requirements
 
@@ -117,17 +116,16 @@ cp -r metadata/*.xlsx python_backend_api/data/metadata/
 
 ```bash
 # Stop all services
-docker-compose -f docker-compose.remote-pull.yaml down
+docker-compose down
 
-# View service logs
-docker-compose -f docker-compose.remote-pull.yaml logs -f backend
-docker-compose -f docker-compose.remote-pull.yaml logs -f frontend
+# View logs
+docker-compose logs -f
 
-# Check image sizes
-docker images | grep ssubuntu
+# Restart services
+docker-compose restart
 
 # Remove everything (careful!)
-docker-compose -f docker-compose.remote-pull.yaml down -v
+docker-compose down -v
 ```
 
 ## Troubleshooting

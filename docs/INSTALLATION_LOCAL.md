@@ -1,41 +1,17 @@
 # ESCOMIC: Installation from Local Build
 
-Build and run ESCOMIC directly from source code. Useful for development, modifications, or if you don't have Docker Hub access.
+Build and run ESCOMIC directly from source code using Docker Compose.
 
 ## Prerequisites
 
-- Python 3.8+ (3.11+ recommended)
-- Node.js 18+
-- Docker & Docker Compose (recommended) OR
-- System dependencies (Tesseract OCR, etc.)
-- 8GB+ RAM
-- 3GB+ disk space
+- Docker & Docker Compose
+- 4GB+ RAM (8GB+ recommended)
+- 2-3GB disk space
 
-## Full Setup with Docker (Recommended for Local)
-
-This builds Docker images locally but provides a clean, reproducible environment.
-
-### 1. Build Images
+## Quick Start
 
 ```bash
-# Make build script executable
-chmod +x build_optimized.sh
-
-# Build both backend and frontend optimized images
-./build_optimized.sh --both
-
-# Or build individually
-./build_optimized.sh --backend
-./build_optimized.sh --frontend
-```
-
-### 2. Start Services
-
-```bash
-# Using optimized docker-compose (recommended)
-docker-compose -f docker-compose.optimized.yml up -d
-
-# Or standard version
+# Start services
 docker-compose up -d
 
 # Check status
@@ -43,55 +19,14 @@ docker-compose ps
 
 # View logs
 docker-compose logs -f
+
+# Stop services
+docker-compose down
 ```
 
-### 3. Access Application
-
-- **Frontend**: http://localhost:3000 or http://localhost:80
-- **Backend API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
-
----
-
-## Manual Local Development (Without Docker)
-
-For developers who want to work directly with source code.
-
-### Backend Setup
-
-```bash
-# Navigate to backend
-cd python_backend_api
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate      # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start FastAPI server
-cd fastapi_webserver
-uvicorn search_main:app --host 0.0.0.0 --port 8000 --reload
-
-# API will be available at http://localhost:8000
-# Docs at http://localhost:8000/docs
-```
-
-### Frontend Setup (New Terminal)
-
-```bash
-# Navigate to frontend
-cd react_frontend_ui
-
-# Install dependencies
-npm install --legacy-peer-deps
-
-# Start development server
-npm start
-
-# Opens http://localhost:3000 automatically
-```
+**Access application:**
+- Frontend: http://localhost:3000
+- API Docs: http://localhost:8000/docs
 
 ---
 
@@ -105,7 +40,7 @@ Without covers, the UI will not display book images.
 
 **Steps:**
 
-1. Download covers from: `[Link to be provided]`
+1. Download covers from: `https://1drv.ms/u/c/ca9d6b4b08cafad5/IQAOXakqjpCoT6uoGtMJDYJ7AZ49rat6QJoCWk2XH8jpakI?e=hYwPQE`
 2. Extract the archive:
    ```bash
    unzip comic_covers.zip
@@ -125,7 +60,7 @@ For full search functionality including OCR'ed texts and character information.
 
 **Steps:**
 
-1. Download metadata from: `[Link to be provided]`
+1. Download metadata from: `https://1drv.ms/u/c/ca9d6b4b08cafad5/IQB5sn0zhH3PR4AxnKQsWkfbASejNBIrv0a4Ra-2lRGH8pk?e=3nR3pi`
 2. Extract the archive:
    ```bash
    unzip metadata.zip
@@ -169,47 +104,37 @@ escomic/
 ## Quick Commands
 
 ```bash
-# Rebuild images (local build)
-docker-compose -f docker-compose.optimized.yml build --no-cache
+# Rebuild services
+docker-compose build --no-cache
 
 # Restart services
-docker-compose -f docker-compose.optimized.yml restart
+docker-compose restart
 
-# Stop services
-docker-compose -f docker-compose.optimized.yml down
-
-# View specific logs
-docker-compose logs -f backend_optimized
-docker-compose logs -f frontend_optimized
+# View logs
+docker-compose logs -f
 
 # Check image sizes
-docker images | grep -E "(backend|frontend)"
+docker images | grep -E "(backend|frontend|escomic)"
 ```
 
-## Development Workflow
+## For Manual Development (Advanced)
 
-### Frontend-Only Changes
+If you prefer not to use Docker and want to develop directly:
 
+**Backend:**
 ```bash
-npm start  # Hot reload enabled
-```
-
-### Backend-Only Changes
-
-```bash
-# With reload enabled
+cd python_backend_api
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cd fastapi_webserver
 uvicorn search_main:app --reload
 ```
 
-### Full Stack
-
+**Frontend:**
 ```bash
-# Terminal 1: Backend
-cd python_backend_api/fastapi_webserver
-uvicorn search_main:app --reload
-
-# Terminal 2: Frontend
 cd react_frontend_ui
+npm install --legacy-peer-deps
 npm start
 ```
 
@@ -219,14 +144,15 @@ npm start
 
 | Issue | Solution |
 |-------|----------|
-| **Comic covers not loading** | Check files exist in `react_frontend_ui/public/comic_book_covers_ui/` |
-| **Search returns no results** | Ensure metadata CSV files are in `python_backend_api/data/metadata/` |
-| **Backend connection error (frontend)** | Check backend is running on port 8000 |
-| **Port already in use** | Use different port or kill existing process |
-| **Memory issues** | Reduce other applications, or increase Docker memory allocation |
+| **Comic covers not loading** | Check `react_frontend_ui/public/comic_book_covers_ui/` has files |
+| **Search returns nothing** | Verify metadata in `python_backend_api/data/metadata/` exists |
+| **Backend connection error** | Check `docker-compose ps` - backend should be running |
+| **Port already in use** | Stop existing container or use different port |
+
+---
 
 ## Next Steps
 
-- See [SYSTEMS.md](./SYSTEMS.md) to learn about different search systems
-- Check [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for additional help
-- Review [DOCKER_COMMANDS.md](./DOCKER_COMMANDS.md) for Docker operations
+- [SYSTEMS.md](./SYSTEMS.md) — Learn about Wayne, Stark, Croft, Butcher, Gray
+- [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) — Common issues and solutions
+- [DOCKER_COMMANDS.md](./DOCKER_COMMANDS.md) — More Docker commands
