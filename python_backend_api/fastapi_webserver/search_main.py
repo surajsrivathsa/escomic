@@ -60,6 +60,7 @@ session_id = "bd65600d-8669-4903-8a14-af88203add38"
 latest_session_id = "bd65600d-8669-4903-8a14-af88203add38"
 latest_session_folderpath = os.path.join(
     cst.SESSIONDATA_PARENT_FILEPATH, session_id)
+os.makedirs(latest_session_folderpath, exist_ok=True)
 
 # create global variable to track history of search results
 book_search_results_history_lst = []
