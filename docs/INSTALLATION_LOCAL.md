@@ -5,8 +5,8 @@ Build and run ESCOMIC directly from source code using Docker Compose.
 ## Prerequisites
 
 - Docker & Docker Compose
-- 4GB+ RAM (8GB+ recommended)
-- 2-3GB disk space
+- 6GB+ RAM (8GB+ recommended)
+- 8-10GB disk space
 
 ## Quick Start
 

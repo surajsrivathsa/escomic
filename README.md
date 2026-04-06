@@ -86,8 +86,8 @@ escomic/
 
 - **Docker & Docker Compose** (easiest option) OR
 - **Python 3.8+** + **Node.js 18+** (local development)
-- **4GB+ RAM** (8GB+ recommended)
-- **2-3GB disk space** (more with data files)
+- **6GB+ RAM** (8GB+ recommended)
+- **8-10GB disk space** (more with data files)
 
 ### Quick Start
 
@@ -99,7 +99,7 @@ docker-compose up -f ./docker-compose.remote-pull.yaml -d
 ```
 👉 **[Full guide →](docs/INSTALLATION_DOCKER_HUB.md)**
 
-**Option 2: Build Locally (20 minutes)**
+**Option 2: Build Locally (30 minutes)**
 ```bash
 docker-compose up -d
 ```
@@ -135,7 +135,9 @@ docker-compose up -d
 - **Comparable**: Side-by-side book comparisons
 - **Faceted**: Rich filtering options
 
-⚠️ **Note**: The facet control filter switch is finicky and needs 2-3 clicks to toggle properly. This is a known quirk of the research implementation.
+⚠️ **Known Issues/Quirks**: 
+1. The facet control filter switch is **sometimes** finicky and needs 2-3 clicks to toggle properly. This is a known bug of the research implementation.
+2. If you hover on same book twice, then you may see different set of keywords. This is because we have mined multiple keywords based on 5W(Who/When/What/Why/Where)1H(How). Keywords shown randomly across each category.
 
 ### Systems to Choose From
 
@@ -174,10 +176,11 @@ Key endpoints:
 - `POST /local_explanation` - Explain books
 - `POST /compare_books` - Compare two books
 - `POST /view_comic_book` - View details
+```
 
 ## ⚠️ Important: Large Files
 
-Due to size (~1.5GB), these are NOT in the repository:
+Due to size (~1.5GB), are also provided separately to help local builds.
 
 ❌ **Comic Book Covers** (~1700+ JPEGs, 1GB)
 → Download from: `[Link provided separately]`
@@ -198,12 +201,15 @@ All documentation is in the `docs/` folder:
 
 | Document | Purpose |
 |----------|----------|
+| [COMPLETE_REFERENCE](docs/Master_Thesis_Suraj__final_version.pdf)| Additional information|
+| [PRESENTATION_SLIDES](docs/Master_Thesis_Defense_v4.pdf)| Presentation Slides|
 | [INSTALLATION_DOCKER_HUB.md](docs/INSTALLATION_DOCKER_HUB.md) | Quick setup with pre-built images |
 | [INSTALLATION_LOCAL.md](docs/INSTALLATION_LOCAL.md) | Local build & development setup |
 | [SYSTEMS.md](docs/SYSTEMS.md) | Wayne, Stark, Croft, Butcher, Gray explained |
 | [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Known issues & solutions |
 | [DOCKER_COMMANDS.md](docs/DOCKER_COMMANDS.md) | Docker command reference |
 | [FILE_STRUCTURE.md](docs/FILE_STRUCTURE.md) | Detailed directory guide |
+
 
 ## 🆘 Need Help?
 
@@ -212,38 +218,15 @@ All documentation is in the `docs/` folder:
 - **System selection?** → [SYSTEMS.md](docs/SYSTEMS.md)
 - **File structure?** → [FILE_STRUCTURE.md](docs/FILE_STRUCTURE.md)
 
-## ⚡ Quick Commands
-
-```bash
-# Start services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-
-# Check status
-docker-compose ps
-```
-
-## 🎓 Research
-
-This implements research on:
-- **Feature Extraction**: Domain-specific facets for comics
-- **Explainable AI**: Weights-based explanations
-- **Online Learning**: Adaptive personalization
-- **User Studies**: Evaluation vs. baselines
 
 ## 📄 Citation
 
 ```bibtex
-@article{escomic_2024,
-  title={ESCOMIC: Adaptive and Explainable Search for Comics},
-  author={Your Name},
-  journal={Your Journal},
-  year={2024}
+@article{escomic_2026,
+  title={ESCOMIC: User Adaptive Explainable Search for Comic Books},
+  author={Suraj Shashidhar, Sayantan Polley, Mounit Roy, Andreas Nurnberger},
+  journal={SIGIR 2026},
+  year={2026}
 }
 ```
 
@@ -255,10 +238,3 @@ This implements research on:
 
 ---
 
-<div align="center">
-
-**🚀 [Get Started →](docs/INSTALLATION_DOCKER_HUB.md)**
-
-Quick setup with docker-compose in 5 minutes
-
-</div>
