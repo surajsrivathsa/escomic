@@ -18,7 +18,7 @@ This is research-backed comic book search system that:
 
 **For setup instructions, see:**
 - **Easiest:** [INSTALLATION_DOCKER_HUB.md](docs/INSTALLATION_DOCKER_HUB.md) — 5 minutes with pre-built images
-- **Local Build:** [INSTALLATION_LOCAL.md](docs/INSTALLATION_LOCAL.md) — Build from source
+- **Build Locally:** [INSTALLATION_LOCAL.md](docs/INSTALLATION_LOCAL.md) — Build from source
 
 ## Key Features
 
@@ -117,6 +117,21 @@ docker-compose up -d
 - **API Docs**: http://localhost:8000/docs
 - **Check status**: `docker-compose ps`
 
+## 📚 Documentation
+
+All documentation is in the `docs/` folder:
+
+| Document | Purpose |
+|----------|----------|
+| [COMPLETE_REFERENCE](docs/Master_Thesis_Suraj__final_version.pdf)| Additional information|
+| [PRESENTATION_SLIDES](docs/Master_Thesis_Defense_v4.pdf)| Presentation Slides|
+| [INSTALLATION_DOCKER_HUB.md](docs/INSTALLATION_DOCKER_HUB.md) | Quick setup with pre-built images |
+| [INSTALLATION_LOCAL.md](docs/INSTALLATION_LOCAL.md) | Local build & development setup |
+| [SYSTEMS.md](docs/SYSTEMS.md) | Wayne, Stark, Croft, Butcher, Gray explained |
+| [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Known issues & solutions |
+| [DOCKER_COMMANDS.md](docs/DOCKER_COMMANDS.md) | Docker command reference |
+| [FILE_STRUCTURE.md](docs/FILE_STRUCTURE.md) | Detailed directory guide |
+
 ## 🎮 Using ESCOMIC
 
 ### Basic Workflow
@@ -180,14 +195,14 @@ Key endpoints:
 
 ## ⚠️ Important: Large Files
 
-Due to size (~1.5GB), are also provided separately to help local builds.
+Due to size (~1.5GB), are also provided separately to help local builds. If you are using dockerhub based docker images then this is not necessary for you as images and feature vector files are already included inside docker image on hub.
 
 ❌ **Comic Book Covers** (~1700+ JPEGs, 1GB)
-→ Download from: `[Link provided separately]`
+→ Download from: [https://1drv.ms/u/c/ca9d6b4b08cafad5/IQAOXakqjpCoT6uoGtMJDYJ7AZ49rat6QJoCWk2XH8jpakI?e=hYwPQE](https://1drv.ms/u/c/ca9d6b4b08cafad5/IQAOXakqjpCoT6uoGtMJDYJ7AZ49rat6QJoCWk2XH8jpakI?e=hYwPQE)
 → Extract to: `react_frontend_ui/public/comic_book_covers_ui/`
 
 ❌ **Metadata Files** (CSV/XLSX, 300MB)
-→ Download from: `[Link provided separately]`
+→ Download from: [https://1drv.ms/u/c/ca9d6b4b08cafad5/IQB5sn0zhH3PR4AxnKQsWkfbASejNBIrv0a4Ra-2lRGH8pk?e=3nR3pi](https://1drv.ms/u/c/ca9d6b4b08cafad5/IQB5sn0zhH3PR4AxnKQsWkfbASejNBIrv0a4Ra-2lRGH8pk?e=3nR3pi)
 → Extract to: `python_backend_api/data/metadata/`
 
 👉 **[Setup instructions →](docs/INSTALLATION_LOCAL.md#data-requirements)**
@@ -195,20 +210,7 @@ Due to size (~1.5GB), are also provided separately to help local builds.
 
 See [DOCKER_OPTIMIZATION_GUIDE.md](./DOCKER_OPTIMIZATION_GUIDE.md) for details.
 
-## 📚 Documentation
 
-All documentation is in the `docs/` folder:
-
-| Document | Purpose |
-|----------|----------|
-| [COMPLETE_REFERENCE](docs/Master_Thesis_Suraj__final_version.pdf)| Additional information|
-| [PRESENTATION_SLIDES](docs/Master_Thesis_Defense_v4.pdf)| Presentation Slides|
-| [INSTALLATION_DOCKER_HUB.md](docs/INSTALLATION_DOCKER_HUB.md) | Quick setup with pre-built images |
-| [INSTALLATION_LOCAL.md](docs/INSTALLATION_LOCAL.md) | Local build & development setup |
-| [SYSTEMS.md](docs/SYSTEMS.md) | Wayne, Stark, Croft, Butcher, Gray explained |
-| [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Known issues & solutions |
-| [DOCKER_COMMANDS.md](docs/DOCKER_COMMANDS.md) | Docker command reference |
-| [FILE_STRUCTURE.md](docs/FILE_STRUCTURE.md) | Detailed directory guide |
 
 
 ## 🆘 Need Help?
