@@ -5,8 +5,8 @@ The quickest way to run ESCOMIC. Pre-built images include all data and comic boo
 ## Prerequisites
 
 - Docker & Docker Compose
-- 4GB+ RAM
-- 3GB+ disk space
+- 6GB+ RAM
+- 10GB+ disk space
 
 ## Quick Start
 
