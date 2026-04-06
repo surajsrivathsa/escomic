@@ -158,6 +158,7 @@ const GlobalExplanationSliderGrid = ({ inputData, onSubmit }) => {
       field: "name",
       headerName: "Facet Name",
       width: 250,
+      sortable: false,
       renderCell: (params) => (
         <Tooltip
           title={
@@ -173,6 +174,7 @@ const GlobalExplanationSliderGrid = ({ inputData, onSubmit }) => {
     {
       field: "value",
       width: 200,
+      sortable: false,
       renderHeader: (params) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <EditIcon />
@@ -228,6 +230,7 @@ const GlobalExplanationSliderGrid = ({ inputData, onSubmit }) => {
         autoHeight={true}
         disableColumnMenu={true}
         sx={{ color: "whitesmoke" }}
+        disableColumnSorting={true}
       />
     </div>
   );
