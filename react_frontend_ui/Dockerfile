@@ -3,27 +3,20 @@ RUN apk update && apk add git
 
 RUN mkdir /app
 WORKDIR /app
-# COPY package*.json /app
 
-# # install latest npm and clean cache
-# RUN npm install --location=global npm@8.11.0
-
-
-# # RUN npm i --silent
-# # RUN npm cache clean --force
-# RUN npm i --location=global react-scripts@5.0.1
-
-COPY . /app
-
-# copy package.json
+# Copy package files first
 COPY package.json ./
-
-# copy package-lock.json
 COPY package-lock.json ./
 
-# CMD ["npm", "start"]
-
+# Install dependencies
 RUN npm install --legacy-peer-deps
+
+# Copy source code
+COPY ./src /app/src
+
+# Copy comic book covers
+COPY ./public/comic_book_covers_ui/ /app/public/comic_book_covers_ui/
+
 EXPOSE 3000
 CMD ["npm", "start"]
 
