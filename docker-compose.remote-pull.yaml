@@ -3,7 +3,7 @@ version: '3.8'
 services:
   backend:
     image: ssubuntu/escomic-backend:latest
-    container_name: escomoic-backend
+    container_name: escomic-backend
     ports:
       - "8000:8000"
     volumes:
@@ -14,7 +14,7 @@ services:
       - escomic_network
 
   frontend:
-    image: ssubuntu/escomic-frontrunning from local does not contain  cend:latest
+    image: ssubuntu/escomic-frontend:latest
     container_name: escomic-frontend
     ports:
       - "3000:3000"
