@@ -62,7 +62,7 @@ function AboutUs() {
                 <td>⚠️ Random</td>
                 <td>✅ Intelligent</td>
                 <td>✅ via BM25</td>
-                <td>Testing comparison quality</td>
+                <td>Testing comparison explanation quality RQ4</td>
               </tr>
               <tr>
                 <td><strong>Croft</strong></td>
@@ -73,7 +73,7 @@ function AboutUs() {
                 <td>✅ Yes</td>
                 <td>🎲 Random</td>
                 <td>✅ via BM25</td>
-                <td>Testing explanation quality</td>
+                <td>Testing personalization explanation quality RQ3</td>
               </tr>
               <tr>
                 <td><strong>Butcher</strong></td>
@@ -84,7 +84,7 @@ function AboutUs() {
                 <td>✅ Yes</td>
                 <td>✅ Intelligent</td>
                 <td>✅ via BM25</td>
-                <td>Baseline (no personalization)</td>
+                <td>Baseline (no personalization) RQ2</td>
               </tr>
               <tr>
                 <td><strong>Gray</strong></td>
@@ -95,7 +95,7 @@ function AboutUs() {
                 <td>✅ Yes</td>
                 <td>✅ Intelligent</td>
                 <td>✅ via BM25</td>
-                <td>Random control for personalization</td>
+                <td>Random control for personalization RQ1</td>
               </tr>
               <tr className="row-bm25">
                 <td><strong>BM25 (Not Evaluated)</strong></td>
