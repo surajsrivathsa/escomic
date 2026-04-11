@@ -24326,4 +24326,12 @@ export const SYSTEMS_TO_API_ENDPOINT_MAPPING = {
     relevance_feedback: "",
     view_pdf: "http://localhost:8000/view_comic_book/",
   },
+  BM25: {
+    search_bar: "http://localhost:8000/book_search_with_bm25_searchbar",
+    book_grid: "http://localhost:8000/book_search_with_bm25?b_id=",
+    local_explanation: "http://localhost:8000/local_explanation",
+    comparision: "http://localhost:8000/compare_books",
+    relevance_feedback: "",
+    view_pdf: "http://localhost:8000/view_comic_book/",
+  },
 };

@@ -175,20 +175,16 @@ const SearchContainer = (props) => {
     var typed_query = e;
     let suggestedQueryResults = [];
 
-    // commented free text query
-    // if (typeof e === "string") {
-    //   var freeTextQueryDict = {
-    //     type: "free text",
-    //     text: e,
-    //     book_title: null,
-    //     comic_no: null,
-    //   };
-    // } else {
-    //   var freeTextQueryDict = e;
-    // }
-
-    // console.log("e ", e);
-    // suggestedQueryResults.push(freeTextQueryDict);
+    // free text query option — available for all variants, powered by BM25
+    if (typeof e === "string" && e.trim().length > 0) {
+      suggestedQueryResults.push({
+        type: "free text",
+        text: e,
+        book_title: `Search: "${e}"`,
+        comic_no: 0,
+        id: -1,
+      });
+    }
 
     SEARCHBAR_BOOKS.map((book) => {
       var matchedBookTitleDict = suggestMatchedBookTitle(book, typed_query);

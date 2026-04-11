@@ -7,6 +7,7 @@ sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 import common_functions.backend_utils as utils
 from search.coarse import coarse_search
+from search.coarse import bm25_search
 
 book_metadata_dict, comic_book_metadata_df = utils.load_book_metadata()
 comic_book_metadata_df.rename(
@@ -141,5 +142,84 @@ def perform_random_search(b_id: int, feature_weight_dict: dict, top_n: int):
         coarse_filtered_book_new_lst.append(d)
 
     coarse_filtered_book_df = pd.DataFrame.from_records(coarse_filtered_book_new_lst)
+    return (coarse_filtered_book_new_lst, coarse_filtered_book_df)
+
+
+def perform_bm25_search(b_id: int, top_n: int = 200):
+    """BM25 query-by-example: pseudo-query from query book → BM25 ranking."""
+    bm25_results = bm25_search.bm25_engine.retrieve(b_id, top_n=top_n + 1)
+
+    query_book_obj = book_metadata_dict[b_id]
+    coarse_filtered_book_lst = []
+
+    for result in bm25_results:
+        idx = result["our_idx"]
+        try:
+            comic_no, book_title, genre, year = book_metadata_dict[idx]
+        except Exception:
+            continue
+        coarse_filtered_book_lst.append({
+            "comic_no": comic_no,
+            "book_title": book_title,
+            "genre": str(genre),
+            "year": year if not isinstance(year, str) and not math.isnan(year) else 1950,
+            "query_book": False,
+        })
+
+    # insert query book at position 7 (same pattern as perform_coarse_search_without_reranking)
+    coarse_filtered_book_lst.insert(
+        7,
+        {
+            "comic_no": query_book_obj[0],
+            "book_title": query_book_obj[1],
+            "genre": str(query_book_obj[2]),
+            "year": query_book_obj[3]
+            if not isinstance(query_book_obj[3], str) and not math.isnan(query_book_obj[3])
+            else 1950,
+            "query_book": True,
+        },
+    )
+
+    coarse_filtered_book_new_lst = []
+    for idx, d in enumerate(coarse_filtered_book_lst):
+        d["id"] = idx
+        d.setdefault("query_book", False)
+        d["thumbsUp"] = 0
+        d["thumbsDown"] = 0
+        coarse_filtered_book_new_lst.append(d)
+
+    coarse_filtered_book_df = pd.DataFrame.from_records(coarse_filtered_book_new_lst)
+    print(f"BM25 QBE Query Book: {b_id}")
+    return (coarse_filtered_book_new_lst, coarse_filtered_book_df)
+
+
+def perform_bm25_text_search(query_text: str, top_n: int = 200):
+    """BM25 free-text search: tokenize raw text query → BM25 ranking."""
+    bm25_results = bm25_search.bm25_engine.retrieve_by_text(query_text, top_n=top_n)
+
+    coarse_filtered_book_lst = []
+    for result in bm25_results:
+        idx = result["our_idx"]
+        try:
+            comic_no, book_title, genre, year = book_metadata_dict[idx]
+        except Exception:
+            continue
+        coarse_filtered_book_lst.append({
+            "comic_no": comic_no,
+            "book_title": book_title,
+            "genre": str(genre),
+            "year": year if not isinstance(year, str) and not math.isnan(year) else 1950,
+            "query_book": False,
+        })
+
+    coarse_filtered_book_new_lst = []
+    for idx, d in enumerate(coarse_filtered_book_lst):
+        d["id"] = idx
+        d["thumbsUp"] = 0
+        d["thumbsDown"] = 0
+        coarse_filtered_book_new_lst.append(d)
+
+    coarse_filtered_book_df = pd.DataFrame.from_records(coarse_filtered_book_new_lst)
+    print(f"BM25 Free-text Query: '{query_text}'")
     return (coarse_filtered_book_new_lst, coarse_filtered_book_df)
 

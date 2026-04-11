@@ -23,6 +23,98 @@ function AboutUs() {
           system and we hope you find your next favorite comic book!
         </p>
       </div>
+      <div className="systems-section">
+        <h2>Search Systems</h2>
+        <p>Choose a system from the navbar dropdown. Each variant is designed to test different aspects of adaptive and explainable search.</p>
+        <div className="systems-table-wrapper">
+          <table className="systems-table">
+            <thead>
+              <tr>
+                <th>System</th>
+                <th>Coarse Search (200 books)</th>
+                <th>Domain Facets (20 books)</th>
+                <th>Global Explanation</th>
+                <th>Reranking</th>
+                <th>Comparison Explanation</th>
+                <th>Personalization Explanation</th>
+                <th>Free-Text Search</th>
+                <th>Best For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="row-recommended">
+                <td><strong>Wayne ⭐</strong></td>
+                <td>TF-IDF, CLD, EHD, HOG</td>
+                <td>✅ Adaptive</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes</td>
+                <td>✅ Intelligent</td>
+                <td>✅ via BM25</td>
+                <td>General use (recommended)</td>
+              </tr>
+              <tr>
+                <td><strong>Stark</strong></td>
+                <td>TF-IDF, CLD, EHD, HOG</td>
+                <td>✅ Adaptive</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes</td>
+                <td>⚠️ Random</td>
+                <td>✅ Intelligent</td>
+                <td>✅ via BM25</td>
+                <td>Testing comparison quality</td>
+              </tr>
+              <tr>
+                <td><strong>Croft</strong></td>
+                <td>TF-IDF, CLD, EHD, HOG</td>
+                <td>✅ Adaptive</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes</td>
+                <td>🎲 Random</td>
+                <td>✅ via BM25</td>
+                <td>Testing explanation quality</td>
+              </tr>
+              <tr>
+                <td><strong>Butcher</strong></td>
+                <td>TF-IDF, CLD, EHD, HOG (top 20 direct)</td>
+                <td>❌ No</td>
+                <td>🎲 Random</td>
+                <td>❌ No</td>
+                <td>✅ Yes</td>
+                <td>✅ Intelligent</td>
+                <td>✅ via BM25</td>
+                <td>Baseline (no personalization)</td>
+              </tr>
+              <tr>
+                <td><strong>Gray</strong></td>
+                <td>🎲 Random</td>
+                <td>🎲 Random</td>
+                <td>🎲 Random</td>
+                <td>🎲 Random</td>
+                <td>✅ Yes</td>
+                <td>✅ Intelligent</td>
+                <td>✅ via BM25</td>
+                <td>Random control for personalization</td>
+              </tr>
+              <tr className="row-bm25">
+                <td><strong>BM25 (Not Evaluated)</strong></td>
+                <td>BM25</td>
+                <td>❌ No</td>
+                <td>🎲 Random</td>
+                <td>❌ No</td>
+                <td>✅ Yes</td>
+                <td>🎲 Random</td>
+                <td>✅ Native</td>
+                <td>Keyword / free-text search <b><i>(Added 2026-04-11)</i></b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="systems-note">
+          💡 <strong>Tip:</strong> All systems accept free-text queries (e.g. "batman detective crime") — results are powered by BM25 ranking with all feature weights set to 1.0.
+        </p>
+      </div>
       <div className="video-section">
         <iframe
           width="560"
@@ -37,7 +129,7 @@ function AboutUs() {
       <div className="contact-section">
         <h2>Contact Us</h2>
         <ul>
-          <li>Email: suraj.shashidhar@st.ovgu.de</li>
+          <li>Email: suraj110693ag@gmail.com</li>
           <li>Phone: 123-456-7890</li>
           <li>Address: Ovgu, Magdeburg</li>
         </ul>

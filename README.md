@@ -12,7 +12,7 @@ This is research-backed comic book search system that:
 
 ✨ **Learns From You** — Personalization via implicit user feedback (mouse hover tracking)
 
-✨ **5 Research Systems** — Compare different approaches: Wayne, Stark, Croft, Butcher, Gray
+✨ **6 Research Systems** — Compare different approaches: Wayne, Stark, Croft, Butcher, Gray, BM25
 
 ✨ **Production Ready** — Optimized Docker images, API documentation, full stack setup
 
@@ -156,13 +156,16 @@ All documentation is in the `docs/` folder:
 
 ### Systems to Choose From
 
-Select from Wayne, Stark, Croft, Butcher, or Gray:
+Select from Wayne, Stark, Croft, Butcher, Gray, or BM25:
 
 - **Wayne** ⭐ (Recommended) - Full features
 - **Stark** - Test comparison quality
 - **Croft** - Test explanation quality
 - **Butcher** - Baseline (no personalization)
 - **Gray** - Random personalization control
+- **BM25** 🆕 *(Added April 10 2026)* - Probabilistic text ranking + free-text search
+
+> **BM25 variant note (April 10 2026):** A BM25-based search variant was added alongside a free-text search capability. Unlike all other variants which require selecting a book as the query, **any variant** can now accept raw text input in the search bar (e.g. "batman detective crime") — results are powered by BM25 ranking. The BM25 variant additionally uses BM25 for query-by-example book-click searches, replacing TF-IDF cosine similarity.
 
 👉 **[System Details →](docs/SYSTEMS.md)**
 
@@ -170,28 +173,35 @@ Select from Wayne, Stark, Croft, Butcher, or Gray:
 
 Interactive API docs available at `http://localhost:8000/docs` (Swagger UI)
 
-### Key Endpoints
+### Search Endpoints
 
-```
-POST   /search                    - Search with query and filters
-POST   /search/coarse            - Fast approximate search
-POST   /search/interpretable     - Explainable search with local insights
-POST   /explain/local            - Get explanation between two books
-POST   /explain/global           - Get global system explanation
-POST   /feedback/hover           - Log user hover interaction
-POST   /session/create           - Create new user session
-GET    /session/{session_id}     - Get session preferences
-GET    /books/{book_id}          - Get detailed book information
-## 🔧 API
+| Endpoint | Method | Used By | Description |
+|----------|--------|---------|-------------|
+| `/book_search` | POST | Wayne, Stark, Croft | Book-click search with personalization & reranking |
+| `/book_search_with_no_personalization` | POST | Butcher | Book-click search, no personalization |
+| `/book_search_with_random_serp_results` | POST | Gray | Book-click search, random reranking |
+| `/book_search_with_random_explanation_feedback` | POST | Croft | Book-click search, random explanation |
+| `/book_search_with_bm25` | POST | **BM25** | Book-click search using BM25 probabilistic ranking |
 
-Interactive docs: `http://localhost:8000/docs` (after starting)
+### Search Bar Endpoints
 
-Key endpoints:
-- `POST /book_search_with_searchbar_inputs` - Search
-- `POST /local_explanation` - Explain books
-- `POST /compare_books` - Compare two books
-- `POST /view_comic_book` - View details
-```
+| Endpoint | Method | Used By | Description |
+|----------|--------|---------|-------------|
+| `/book_search_with_searchbar_inputs` | POST | Wayne, Stark, Croft, Butcher | Search bar (book select or free-text via BM25) |
+| `/book_search_with_searchbar_inputs_and_random_serp` | POST | Gray | Search bar with random reranking (or free-text via BM25) |
+| `/book_search_with_bm25_searchbar` | POST | **BM25** | Search bar with BM25 for both book-select and free-text |
+
+> **Free-text search (all variants):** All searchbar endpoints accept `type: "free text"` queries — BM25 is used as the engine, all facet weights default to 1.0, and a random explanation is generated.
+
+### Explanation & Utility Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/local_explanation` | POST | Explain similarity between two books |
+| `/compare_books` | POST | Compare two books with explanation |
+| `/compare_books_with_random` | POST | Compare two books, randomized explanation (Stark) |
+| `/view_comic_book` | GET | Get full book details |
+| `/start_session` | GET | Create new user session |
 
 ## ⚠️ Important: Large Files
 

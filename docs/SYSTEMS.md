@@ -134,6 +134,51 @@ ESCOMIC includes multiple search systems with different configurations, optimize
 
 ---
 
+### 🔤 BM25 *(Added April 10, 2026)*
+
+**Probabilistic Text Ranking — Free-Text Search Support**
+
+> BM25 (Best Match 25) is a probabilistic ranking algorithm that scores documents based on term frequency and inverse document frequency, with length normalization.
+
+| Feature | Status |
+|---------|--------|
+| Ranking Engine | ✅ BM25 (Okapi BM25) |
+| Free-Text Search | ✅ Yes (type any query) |
+| Query by Example | ✅ Yes (select a book) |
+| Personalization | ❌ No |
+| Reranking | ❌ No |
+| Comparison | ✅ Yes |
+| Relevance Feedback | 🎲 Random |
+| Explanations | 🎲 Random |
+
+**How it works:**
+- **Query by Example (book-click):** Top TF-IDF terms from the selected book are extracted as a pseudo-query, then ranked against all books using BM25. Facet weights are assigned randomly.
+- **Free-Text Search:** The typed query is tokenized and matched directly against the BM25 corpus. All facet weights default to 1.0.
+
+**Text corpus per book:**
+- Title (weighted ×3)
+- Genre (weighted ×2)
+- Characters (weighted ×2)
+- Cover keywords (filtered)
+- W5H1 dialogue keywords (Who/What/When/Where/Why/How)
+
+**Differs from all other variants:**
+- Uses BM25 probabilistic ranking instead of TF-IDF cosine similarity
+- No adaptive personalization or reranking
+- Supports raw free-text queries natively
+
+**Best For:**
+- Keyword-based searches (e.g., "batman detective crime gotham")
+- Exploring BM25 vs TF-IDF retrieval quality
+- Free-text search without needing to know a specific book title
+
+**Endpoints:**
+- Book Grid: `/book_search_with_bm25?b_id=`
+- Search Bar: `/book_search_with_bm25_searchbar`
+- Comparison: `/compare_books`
+
+---
+
 ## Research Questions Addressed
 
 ### RQ1: Does Comparison Quality Matter?
@@ -167,6 +212,7 @@ ESCOMIC includes multiple search systems with different configurations, optimize
    - Croft
    - Butcher
    - Gray
+   - BM25 *(free-text search)*
 4. Your preference is saved for the session
 
 ### Via API
@@ -193,15 +239,19 @@ response = requests.post(
 
 ## Performance & Features Summary
 
-| Feature | Wayne | Stark | Croft | Butcher | Gray |
-|---------|:-----:|:-----:|:-----:|:-------:|:----:|
-| Personalization | ✅ | ✅ | ✅ | ❌ | 🎲 |
-| Reranking | ✅ | ✅ | ✅ | ❌ | 🎲 |
-| Comparison | ✅ | ⚠️ | ✅ | ✅ | ✅ |
-| Feedback Explain | ✅ | ✅ | ⚠️ | ✅ | ✅ |
-| System Speed | Normal | Normal | Normal | Fastest | Normal |
-| Complexity | High | High | High | Low | Medium |
-| Recommended | **YES** | Research | Research | Research | Research |
+| Feature | Wayne | Stark | Croft | Butcher | Gray | BM25 |
+|---------|:-----:|:-----:|:-----:|:-------:|:----:|:----:|
+| Personalization | ✅ | ✅ | ✅ | ❌ | 🎲 | ❌ |
+| Reranking | ✅ | ✅ | ✅ | ❌ | 🎲 | ❌ |
+| Comparison | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ |
+| Feedback Explain | ✅ | ✅ | ⚠️ | ✅ | ✅ | 🎲 |
+| Free-Text Search | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Ranking Engine | TF-IDF | TF-IDF | TF-IDF | TF-IDF | TF-IDF | **BM25** |
+| System Speed | Normal | Normal | Normal | Fastest | Normal | Fast |
+| Complexity | High | High | High | Low | Medium | Low |
+| Recommended | **YES** | Research | Research | Research | Research | Free-Text |
+
+> **Note (April 10, 2026):** All variants now support free-text search (powered by BM25). The BM25 variant additionally uses BM25 for query-by-example book-click searches.
 
 ---
 
@@ -221,6 +271,9 @@ response = requests.post(
 
 ### For Minimal Personalization
 → Use **Butcher** (no personalization baseline)
+
+### For Free-Text / Keyword Search
+→ Use **BM25** for raw keyword queries (e.g., "batman crime detective gotham")
 
 ---
 

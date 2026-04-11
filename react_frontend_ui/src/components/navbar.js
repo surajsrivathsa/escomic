@@ -38,19 +38,33 @@ function NavBar() {
     //event.preventDefault();
     console.log("generateGrid input: ", book);
     const searchResults = null;
-    let queryBook = {
-      ...book.clickedQuery,
-      text: book.book_title,
-      type: "book",
-    };
+    const clickedSuggestion = book.clickedQuery || {};
+    const isFreetextQuery = clickedSuggestion.type === "free text";
 
-    queryBook = {
-      id: queryBook.id,
-      comic_no: queryBook.comic_no,
-      book_title: queryBook.book_title,
-      text: queryBook.book_title,
-      type: queryBook.type,
-    };
+    let queryBook;
+    if (isFreetextQuery) {
+      // preserve the typed text and free-text type for BM25 text search
+      queryBook = {
+        id: -1,
+        comic_no: 0,
+        book_title: clickedSuggestion.book_title || clickedSuggestion.text,
+        text: clickedSuggestion.text,
+        type: "free text",
+      };
+    } else {
+      queryBook = {
+        ...clickedSuggestion,
+        text: clickedSuggestion.book_title || "",
+        type: clickedSuggestion.type || "book",
+      };
+      queryBook = {
+        id: queryBook.id,
+        comic_no: queryBook.comic_no,
+        book_title: queryBook.book_title,
+        text: queryBook.book_title,
+        type: queryBook.type,
+      };
+    }
     console.log("generateGrid querybook: ", queryBook);
 
     // default all facet weights to one
@@ -129,6 +143,7 @@ function NavBar() {
           <MenuItem value="Croft">Croft</MenuItem>
           <MenuItem value="Butcher">Butcher</MenuItem>
           <MenuItem value="Gray">Gray</MenuItem>
+          <MenuItem value="BM25">BM25</MenuItem>
         </Select>
       </div>
     </div>

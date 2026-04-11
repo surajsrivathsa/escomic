@@ -18,3 +18,4 @@ sentence_transformers>=2.3.0
 transformers>=4.30.0
 torch==1.12.1
 uvicorn==0.21.1
+rank-bm25>=0.2.2
