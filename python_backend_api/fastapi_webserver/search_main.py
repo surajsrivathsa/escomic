@@ -168,8 +168,7 @@ def get_coarse_results(b_id: int):
         coarse_filtered_book_new_lst.append(d)
 
     print("Query Book : {} ".format(b_id))
-    # return (coarse_filtered_book_new_lst, coarse_filtered_book_df)
-    return coarse_filtered_book_new_lst
+    return (coarse_filtered_book_new_lst, coarse_filtered_book_df)
 
 
 def create_fake_clicks_for_previous_timestep_data(
