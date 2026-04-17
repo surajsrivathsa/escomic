@@ -117,7 +117,7 @@ function AboutUs() {
                 <td>✅ Yes</td>
                 <td>✅ Intelligent</td>
                 <td>✅ via BM25</td>
-                <td>BM25 text + visual features + full Wayne personalization</td>
+                <td>BM25 based Wayne  <b><i>(Added 2026-04-17)</i></b></td>
               </tr>
             </tbody>
           </table>
