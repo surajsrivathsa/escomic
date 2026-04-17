@@ -108,6 +108,17 @@ function AboutUs() {
                 <td>✅ Native</td>
                 <td>Keyword / free-text search <b><i>(Added 2026-04-11)</i></b></td>
               </tr>
+              <tr className="row-bm25-wayne">
+                <td><strong>BM25_Wayne</strong></td>
+                <td>BM25, CLD, EHD, HOG</td>
+                <td>✅ Adaptive</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes</td>
+                <td>✅ Intelligent</td>
+                <td>✅ via BM25</td>
+                <td>BM25 text + visual features + full Wayne personalization</td>
+              </tr>
             </tbody>
           </table>
         </div>

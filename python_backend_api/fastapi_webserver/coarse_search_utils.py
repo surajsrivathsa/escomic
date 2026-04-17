@@ -193,6 +193,35 @@ def perform_bm25_search(b_id: int, top_n: int = 200):
     return (coarse_filtered_book_new_lst, coarse_filtered_book_df)
 
 
+def perform_bm25_wayne_coarse_search(
+    b_id: int,
+    feature_weight_dict={
+        "cld": 0.1,
+        "edh": 0.1,
+        "hog": 0.1,
+        "text": 1.7,
+        "comic_img": 1.0,
+        "comic_txt": 1.0,
+    },
+    top_n=200,
+):
+    """BM25_Wayne hybrid coarse search: BM25 text scores + HOG/EHD/CLD visual features."""
+    top_n_results_df = coarse_search.comics_coarse_search_bm25_wayne(
+        query_comic_book_id=b_id, feature_weight_dict=feature_weight_dict, top_n=top_n
+    )
+    coarse_filtered_book_df = top_n_results_df[
+        ["comic_no", "book_title", "genre", "year"]
+    ]
+    coarse_filtered_book_df.fillna("", inplace=True)
+    coarse_filtered_book_lst = coarse_filtered_book_df.to_dict("records")
+    coarse_filtered_book_new_lst = []
+    for idx, d in enumerate(coarse_filtered_book_lst):
+        d["id"] = idx
+        coarse_filtered_book_new_lst.append(d)
+    print(f"BM25_Wayne QBE Query Book: {b_id}")
+    return (coarse_filtered_book_new_lst, coarse_filtered_book_df)
+
+
 def perform_bm25_text_search(query_text: str, top_n: int = 200):
     """BM25 free-text search: tokenize raw text query → BM25 ranking."""
     bm25_results = bm25_search.bm25_engine.retrieve_by_text(query_text, top_n=top_n)

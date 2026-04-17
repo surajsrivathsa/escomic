@@ -144,6 +144,7 @@ function NavBar() {
           <MenuItem value="Butcher">Butcher</MenuItem>
           <MenuItem value="Gray">Gray</MenuItem>
           <MenuItem value="BM25">BM25</MenuItem>
+          <MenuItem value="BM25_Wayne">BM25_Wayne</MenuItem>
         </Select>
       </div>
     </div>

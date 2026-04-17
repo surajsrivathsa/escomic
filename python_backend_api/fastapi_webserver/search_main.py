@@ -1421,6 +1421,236 @@ async def search_with_bm25_qbe(
     return interpretable_filtered_book_new_lst
 
 
+@app.post("/book_search_with_bm25_wayne", status_code=200)
+async def search_with_bm25_wayne_qbe(
+    cbl: BookList,
+    b_id: int = Query(...),
+    generate_fake_clicks: bool = Query(default=True),
+    input_feature_importance_dict: Optional[FacetWeight] = FacetWeight(
+        gender=1.0,
+        supersense=1.0,
+        genre_comb=1.0,
+        panel_ratio=1.0,
+        comic_cover_img=1.0,
+        comic_cover_txt=1.0,
+    ),
+):
+    (
+        coarse_filtered_book_new_lst,
+        coarse_filtered_book_df,
+    ) = cs_utils.perform_bm25_wayne_coarse_search(b_id=b_id)
+
+    global book_search_results_history_lst
+
+    if generate_fake_clicks:
+        clicksinfo_dict = create_fake_clicks_for_previous_timestep_data(
+            coarse_filtered_book_df=coarse_filtered_book_df
+        )
+    else:
+        clicksinfo_dict = create_real_clicks_for_previous_timestamp_data(
+            cbl.interested_book_lst
+        )
+
+    if not generate_fake_clicks:
+        if utils.check_if_hovered(
+            clicksinfo_dict=clicksinfo_dict, b_id=b_id
+        ) and not utils.check_if_all_books_are_hovered(
+            clicksinfo_dict=clicksinfo_dict, b_id=b_id
+        ):
+            (
+                feature_importance_dict,
+                normalized_feature_importance_dict,
+                clf_coef,
+            ) = rrr.adapt_facet_weights_from_previous_timestep_click_info_triplet_loss(
+                previous_click_info_lst=clicksinfo_dict, query_book_id=b_id
+            )
+        else:
+            normalized_feature_importance_dict = {
+                "gender": input_feature_importance_dict.gender,
+                "supersense": input_feature_importance_dict.supersense,
+                "genre_comb": input_feature_importance_dict.genre_comb,
+                "panel_ratio": input_feature_importance_dict.panel_ratio,
+                "comic_cover_img": input_feature_importance_dict.comic_cover_img,
+                "comic_cover_txt": input_feature_importance_dict.comic_cover_txt,
+            }
+            clf_coef = None
+            feature_importance_dict = normalized_feature_importance_dict
+        clf_coef = None
+        feature_importance_dict = normalized_feature_importance_dict
+    else:
+        normalized_feature_importance_dict = {
+            "gender": input_feature_importance_dict.gender,
+            "supersense": input_feature_importance_dict.supersense,
+            "genre_comb": input_feature_importance_dict.genre_comb,
+            "panel_ratio": input_feature_importance_dict.panel_ratio,
+            "comic_cover_img": input_feature_importance_dict.comic_cover_img,
+            "comic_cover_txt": input_feature_importance_dict.comic_cover_txt,
+        }
+        clf_coef = None
+        feature_importance_dict = normalized_feature_importance_dict
+
+    (
+        interpretable_filtered_book_lst,
+        interpretable_filtered_book_df,
+        historical_book_ids_lst,
+    ) = is_utils.adaptive_rerank_coarse_search_results(
+        normalized_feature_importance_dict=normalized_feature_importance_dict,
+        query_comic_book_id=b_id,
+        coarse_search_results_lst=coarse_filtered_book_new_lst,
+        top_k=20,
+        historical_book_ids_lst=book_search_results_history_lst.copy(),
+    )
+
+    book_search_results_history_lst = historical_book_ids_lst.copy()
+
+    if generate_fake_clicks:
+        relevance_feedback_explanation_dict = await erf.explain_relevance_feedback(
+            clicksinfo_dict=[],
+            query_book_id=b_id,
+            search_results=interpretable_filtered_book_lst,
+            model=sentence_transformer_model,
+        )
+    else:
+        relevance_feedback_explanation_dict = await erf.explain_relevance_feedback(
+            clicksinfo_dict=clicksinfo_dict,
+            query_book_id=b_id,
+            search_results=interpretable_filtered_book_lst,
+            model=sentence_transformer_model,
+        )
+
+    interpretable_filtered_book_new_lst = [
+        interpretable_filtered_book_lst.copy(),
+        normalized_feature_importance_dict,
+        relevance_feedback_explanation_dict,
+    ]
+
+    global latest_session_folderpath
+    utils.log_session_data(
+        latest_session_folderpath,
+        {
+            "input_data": {
+                "cbl": cbl.dict(),
+                "b_id": b_id,
+                "generate_fake_clicks": generate_fake_clicks,
+                "input_feature_importance_dict": input_feature_importance_dict.dict(),
+            },
+            "output_data": {
+                "interpretable_filtered_book_new_lst": interpretable_filtered_book_new_lst
+            },
+            "function_name": "search_with_bm25_wayne_qbe",
+        },
+    )
+    return interpretable_filtered_book_new_lst
+
+
+@app.post("/book_search_with_bm25_wayne_searchbar", status_code=200)
+async def search_with_bm25_wayne_searchbar(
+    searchbar_query: SearchBarQuery,
+    input_feature_importance_dict: Optional[FacetWeight] = FacetWeight(
+        gender=1.0,
+        supersense=1.0,
+        genre_comb=1.0,
+        panel_ratio=1.0,
+        comic_cover_img=1.0,
+        comic_cover_txt=1.0,
+    ),
+):
+    print("searchbar_query (BM25_Wayne): {}".format(searchbar_query))
+
+    global book_search_results_history_lst
+    book_search_results_history_lst = []
+
+    if (
+        searchbar_query.type == "book"
+        or searchbar_query.type == "character"
+        or searchbar_query.type == "genre"
+    ):
+        b_id = searchbar_query.comic_no
+        (
+            coarse_filtered_book_new_lst,
+            coarse_filtered_book_df,
+        ) = cs_utils.perform_bm25_wayne_coarse_search(b_id=b_id)
+    elif searchbar_query.type == "free text":
+        (
+            coarse_filtered_book_new_lst,
+            coarse_filtered_book_df,
+        ) = cs_utils.perform_bm25_text_search(query_text=searchbar_query.text, top_n=19)
+        b_id = coarse_filtered_book_new_lst[0]["comic_no"] if coarse_filtered_book_new_lst else 1
+    else:
+        b_id = 1
+        (
+            coarse_filtered_book_new_lst,
+            coarse_filtered_book_df,
+        ) = cs_utils.perform_bm25_wayne_coarse_search(b_id=b_id)
+
+    is_free_text_query = searchbar_query.type == "free text"
+
+    if is_free_text_query:
+        normalized_feature_importance_dict = {
+            "gender": 1.0, "supersense": 1.0, "genre_comb": 1.0,
+            "panel_ratio": 1.0, "comic_cover_img": 1.0, "comic_cover_txt": 1.0,
+        }
+    else:
+        normalized_feature_importance_dict = {
+            "gender": input_feature_importance_dict.gender,
+            "supersense": input_feature_importance_dict.supersense,
+            "genre_comb": input_feature_importance_dict.genre_comb,
+            "panel_ratio": input_feature_importance_dict.panel_ratio,
+            "comic_cover_img": input_feature_importance_dict.comic_cover_img,
+            "comic_cover_txt": input_feature_importance_dict.comic_cover_txt,
+        }
+
+    if is_free_text_query:
+        interpretable_filtered_book_lst = coarse_filtered_book_new_lst
+        relevance_feedback_explanation_dict = await erf.explain_relevance_feedback_at_random(
+            clicksinfo_dict=[],
+            query_book_id=b_id,
+            search_results=interpretable_filtered_book_lst,
+            model=sentence_transformer_model,
+        )
+    else:
+        (
+            interpretable_filtered_book_lst,
+            interpretable_filtered_book_df,
+            historical_book_ids_lst,
+        ) = is_utils.adaptive_rerank_coarse_search_results(
+            normalized_feature_importance_dict=normalized_feature_importance_dict,
+            query_comic_book_id=b_id,
+            coarse_search_results_lst=coarse_filtered_book_new_lst,
+            top_k=20,
+            historical_book_ids_lst=book_search_results_history_lst.copy(),
+        )
+        book_search_results_history_lst = historical_book_ids_lst.copy()
+        relevance_feedback_explanation_dict = await erf.explain_relevance_feedback(
+            clicksinfo_dict=[],
+            query_book_id=b_id,
+            search_results=interpretable_filtered_book_lst,
+            model=sentence_transformer_model,
+        )
+
+    interpretable_filtered_book_new_lst = [
+        interpretable_filtered_book_lst.copy(),
+        normalized_feature_importance_dict,
+        relevance_feedback_explanation_dict,
+    ]
+
+    global latest_session_folderpath
+    utils.log_session_data(
+        latest_session_folderpath,
+        {
+            "input_data": {
+                "searchbar_query": searchbar_query.dict(),
+                "input_feature_importance_dict": input_feature_importance_dict.dict(),
+            },
+            "output_data": {
+                "interpretable_filtered_book_new_lst": interpretable_filtered_book_new_lst
+            },
+            "function_name": "search_with_bm25_wayne_searchbar",
+        },
+    )
+    return interpretable_filtered_book_new_lst
+
+
 @app.post("/book_search_with_bm25_searchbar", status_code=200)
 async def search_with_bm25_searchbar(
     searchbar_query: SearchBarQuery,
