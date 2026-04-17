@@ -98,7 +98,7 @@ function AboutUs() {
                 <td>Random control for personalization RQ1</td>
               </tr>
               <tr className="row-bm25">
-                <td><strong>BM25 (Not Evaluated)</strong></td>
+                <td><strong>BM25 Only (Not Evaluated)</strong></td>
                 <td>BM25</td>
                 <td>❌ No</td>
                 <td>🎲 Random</td>
@@ -109,7 +109,7 @@ function AboutUs() {
                 <td>Keyword / free-text search <b><i>(Added 2026-04-11)</i></b></td>
               </tr>
               <tr className="row-bm25-wayne">
-                <td><strong>BM25_Wayne</strong></td>
+                <td><strong>BM25_Wayne (Not Evaluated)</strong></td>
                 <td>BM25, CLD, EHD, HOG</td>
                 <td>✅ Adaptive</td>
                 <td>✅ Yes</td>
