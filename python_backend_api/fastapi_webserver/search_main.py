@@ -147,6 +147,8 @@ def get_coarse_results(b_id: int):
         "edh": 0.1,
         "hog": 0.1,
         "text": 1.7,
+        "comic_img": 1.0,
+        "comic_txt": 1.0,
     }
 
     top_n_results_df = coarse_search.comics_coarse_search(
