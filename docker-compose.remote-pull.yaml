@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: ssubuntu/escomic-backend:latest
+    image: ssubuntu/escomic-backend:bm25_with_wayne
     container_name: escomic-backend
     ports:
       - "8000:8000"
@@ -14,7 +14,7 @@ services:
       - escomic_network
 
   frontend:
-    image: ssubuntu/escomic-frontend:latest
+    image: ssubuntu/escomic-frontend:bm25_with_wayne
     container_name: escomic-frontend
     ports:
       - "3000:3000"

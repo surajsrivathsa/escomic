@@ -121,6 +121,26 @@ class BM25Baseline:
         top_indices = vec.argsort()[::-1][: self.top_k_terms]
         return [self.feature_names[i] for i in top_indices if vec[i] > 0]
 
+    def get_all_scores(self, query_book_idx: int) -> np.ndarray:
+        """Min-max normalized BM25 scores for all documents given a query book.
+
+        Returns a 1-D float64 array of length n_docs with values in [0, 1].
+        The query book's own score is zeroed out to avoid self-retrieval.
+        Used by the BM25_Wayne hybrid coarse search.
+        """
+        pseudo_query = self.get_pseudo_query(query_book_idx)
+        if not pseudo_query:
+            return np.zeros(len(self.metadata_df), dtype=np.float64)
+
+        raw_scores = self.bm25.get_scores(pseudo_query).copy()
+        raw_scores[query_book_idx] = 0.0  # exclude self
+
+        min_score = raw_scores.min()
+        max_score = raw_scores.max()
+        if max_score - min_score < 1e-10:
+            return np.zeros_like(raw_scores, dtype=np.float64)
+        return ((raw_scores - min_score) / (max_score - min_score)).astype(np.float64)
+
     def retrieve(self, query_book_idx: int, top_n: int = 200) -> list:
         """
         QBE path: extract pseudo-query from query book → BM25 ranking.

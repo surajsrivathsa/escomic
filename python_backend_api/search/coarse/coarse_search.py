@@ -9,6 +9,7 @@ sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 ## import custom functions
 import common_functions.backend_utils as utils
 import common_constants.backend_constants as cst
+from search.coarse import bm25_search
 
 ## Loading features and metadata beforehand
 (
@@ -257,6 +258,64 @@ def comics_random_search(
     ]
 
     return serp_lst
+
+
+def comics_coarse_search_bm25_wayne(
+    query_comic_book_id: int, feature_weight_dict: dict, top_n: int
+):
+    """Coarse search for BM25_Wayne: BM25 text scores + HOG/EHD/CLD visual features.
+
+    New standalone function — comics_coarse_search() is not modified.
+    Uses BM25 get_all_scores() in place of the TF-IDF text cosine similarity term.
+    All visual feature terms (CLD, EDH, HOG, comic_img, comic_txt) are unchanged.
+    """
+    query_book_id = query_comic_book_id
+
+    cld_cosine_similarity = utils.cosine_similarity(
+        cld_tfidf_np[:, :], cld_tfidf_np[max(query_book_id, 0) : query_book_id + 1, :]
+    )
+    edh_cosine_similarity = utils.cosine_similarity(
+        edh_tfidf_np[:, :], edh_tfidf_np[max(query_book_id, 0) : query_book_id + 1, :]
+    )
+    hog_cosine_similarity = utils.cosine_similarity(
+        hog_tfidf_np[:, :], hog_tfidf_np[max(query_book_id, 0) : query_book_id + 1, :]
+    )
+    comic_cover_img_cosine_similarity = utils.cosine_similarity(
+        comic_cover_img_np[:, :],
+        comic_cover_img_np[max(query_book_id, 0) : query_book_id + 1, :],
+    )
+    comic_cover_txt_cosine_similarity = utils.cosine_similarity(
+        comic_cover_txt_np[:, :],
+        comic_cover_txt_np[max(query_book_id, 0) : query_book_id + 1, :],
+    )
+
+    # BM25 text scores replace TF-IDF text cosine similarity for this system only
+    raw_bm25_scores = bm25_search.bm25_engine.get_all_scores(query_book_id)  # shape (N,)
+    bm25_text_scores = raw_bm25_scores.reshape(-1, 1)  # shape (N, 1) to match cosine sim matrices
+
+    combined_results_similarity = (
+        cld_cosine_similarity * feature_weight_dict["cld"]
+        + edh_cosine_similarity * feature_weight_dict["edh"]
+        + hog_cosine_similarity * feature_weight_dict["hog"]
+        + bm25_text_scores * feature_weight_dict["text"]
+        + comic_cover_img_cosine_similarity * feature_weight_dict["comic_img"]
+        + comic_cover_txt_cosine_similarity * feature_weight_dict["comic_txt"]
+    )
+
+    combined_results_indices = np.argsort(
+        np.squeeze(-combined_results_similarity), axis=0
+    )
+    combined_sorted_result_indices = np.sort(-combined_results_similarity, axis=0)
+
+    top_k_df = get_top_n_matching_book_info(
+        idx_top_n_np=combined_results_indices,
+        sim_score_top_n_np=combined_sorted_result_indices,
+        comic_info_dict=book_metadata_dict,
+        print_n=top_n,
+        query_book_id=query_book_id,
+        feature_similarity_type="coarse_combined_bm25_wayne",
+    )
+    return top_k_df
 
 
 if __name__ == "__main__":
